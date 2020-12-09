@@ -45,7 +45,7 @@ const Year = styled.span`
 `;
 
 const Poster = ({
-    naver_code,
+                naver_code,
                 title,
                 poster,
                 star,

@@ -13,8 +13,7 @@ const HomePresenter = (
         error,
         loading
     }
-) => {    
-    console.log(movieList);
+) => {            
     return (
         <>        
             <Helmet>
@@ -28,7 +27,7 @@ const HomePresenter = (
                             return(<Poster 
                                 naver_code = {movie.naver_code}
                                 title={movie.title}
-                                poster={movie.poster}
+                                poster={movie.thumbnail}
                                 star={movie.star}
                                 director={movie.director}
                                 actors={movie.actors}
