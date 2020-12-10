@@ -7,7 +7,7 @@ const DetailContainer = (props) => {
     const [result, setResult] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState("");
-    
+    const [like, setLike] = useState("");
     const setDetail = async () => {
 
         const {match: {params:{naver_code}},
@@ -21,36 +21,45 @@ const DetailContainer = (props) => {
         } catch (error) {
             setError({error:error});
         }finally{
+            setResult(result);    
+            setLike(result.like);
             setLoading(false);
-            setResult(result);            
         }
     };
     useEffect(()=>{            
         setDetail();
     }, []);
 
-    const _handleonClick = async (_id, like) => {
+    const _handleOnClick = (event) => {
+        event.preventDefault();
+        const {_id, like} = result;
+        register(_id, like);
+    }
+
+    const register = async (_id, like) => {
         let oid = _id;
-        console.log(oid);
+        console.log(like);
         try {
             if (like ) {
                 ({data:{result:like}}= await movieApi.unregister(oid)); 
             }else{
                 ({data:{result:like}}= await movieApi.register(oid));
             } 
-            
         } catch (error) {
             setError({error});
         }finally{
+            result['like']=like;
+            setResult(result);
+            setLike(like);
             setLoading(false);
         }        
     }
-    
     return (<DetailPresenter 
             result={result}
             error={error}
             loading={loading}
-            _handleonClick = {_handleonClick}
+            like={like}
+            _handleOnClick = {_handleOnClick}
         />);
 
 }

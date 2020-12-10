@@ -1,31 +1,30 @@
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
-import LikeButton from '../../components/LikeButton';
+import Button from '../../components/Button';
+
+const Backdrop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(${(props) => props.poster});
+  background-position: center center;
+  background-size: cover;
+  filter: blur(3px);
+  opacity: 0.2;
+  z-index: 0;
+`;
 
 const Container = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:center;    
     align-items:flex-end;
-    height:100%;
-    background-image:url(${props=> `${props.poster}`});
-    background-position:center;
-    background-repeat:no-repeat;
-    background-size:cover;
-    backdrop-filter:opacity(0.5);
-    opacity:0.5;
-    z-index:1;
+    height:100%;    
+    z-index:1;  
+    opacity:1;
 `;
-// z-index를 이용한 division 겹치기 후 배경만 filtering
-// const dkdk = styled.div`
-//     background-image:url(${props=> `${props.poster}`});
-//     background-position:center;
-//     background-repeat:no-repeat;
-//     background-size:cover;
-//     position: fixed;
-//     z-index:1;
-// `;
-
 const UpperDiv = styled.section`
     margin-top:20px;    
     height:400px;
@@ -45,6 +44,8 @@ const ImageArticle = styled.article`
     background-image:url(${props=> `${props.poster}`});
     background-repeat:no-repeat;
     background-size:cover;
+    opacity:1;
+    
 `;
 const StoryArticle = styled.article`
     padding-top:10px;
@@ -68,13 +69,16 @@ const DetailPresenter = ({
     result,
     error,
     loading,
-    _handleonClick
+    like,
+    _handleOnClick
 }) => {          
-    console.log(result.actors);
+    
     return(
     <>
-    {loading ? (<Loader />) : (
-        <Container poster={result.poster}>                                
+    {loading ? (<Loader />) : (result && (
+        <>
+        <Backdrop poster={result.poster}/>
+        <Container >                                
         <UpperDiv>
             <ImageArticle poster={result.poster}/>
             <CreatorArticle>
@@ -83,11 +87,12 @@ const DetailPresenter = ({
                 <FigureSpan>장르 </FigureSpan>
                 <FigureSpan>{result.genre}</FigureSpan>
                 <FigureSpan>배우</FigureSpan>
-                <FigureSpan>{result.actors.map(actor=> (actor+" "))}</FigureSpan>
+                <FigureSpan>{result.actors.map((actor) => (actor+" "))}</FigureSpan>
                 <FigureSpan>개봉일 </FigureSpan>
                 <FigureSpan>{result.releaseDt}</FigureSpan>
                 <FigureSpan>상영시간</FigureSpan>
-                <FigureSpan>{result.runningtime} <LikeButton onClick={()=>_handleonClick(result._id, result.like)} /></FigureSpan>
+                <FigureSpan>{result.runningtime} <Button like={like} oid={result._id} _handler={ _handleOnClick} />
+                 </FigureSpan>
             </CreatorArticle>
         </UpperDiv>
         <LowerDiv>
@@ -96,6 +101,8 @@ const DetailPresenter = ({
             </StoryArticle>
         </LowerDiv>
     </Container>
+    </>
+    )
     )}
         
     </>

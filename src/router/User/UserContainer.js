@@ -1,44 +1,34 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 import UserPresenter from './UserPresenter';
 import {movieApi} from '../../api';
 
-class UserContainer extends React.Component {
+const UserContainer = () => {
 
-    constructor(props){
-        super(props);        
-    }
-    
-    state = {
-        myfavoriteList:null,
-        error:null,
+    const [state, setState] = useState({
+        result:"",
+        error:"",
         loading:true
-    };
+    });    
     
-    async componentDidMount(){
+    useEffect(
+        ()=>{
+        setDefault();           
+        }
+    ,[])
+    const setDefault = async() =>{
+        let result = null;        
         try {
-            
-            const {
-                data: {results: myfavoriteList},
-    
-            } = await movieApi.getFavorite();                         
-            this.setState({myfavoriteList});
-        }catch (error) {
-            this.setState({error});
+            ({data:{result}} = await movieApi.getFavorite());                                 
+        } catch (error) {
+            setState({error})
         }finally{
-            this.setState({loading:false});
+            setState({result, loading:false})
         }
     };
 
-    render(){        
-        const {myfavoriteList, error, loading} = this.state;        
-        return (<UserPresenter 
-                    myfavoriteList={myfavoriteList}
-                    error={error}
-                    loading={loading}
-                />       
-                );
-    };
-
-};
+    return ( <UserPresenter 
+        state={state}
+    />);
+}
 
 export default UserContainer;

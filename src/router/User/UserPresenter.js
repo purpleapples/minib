@@ -4,6 +4,8 @@ import Helmet from 'react-helmet';
 import Loader from '../../components/Loader';
 import Section from '../../components/Section';
 import Poster from '../../components/Poster';
+import SubTitle from '../../components/SubTitle';
+
 const Container = styled.div`
     display:grid;
     grid-template-columns: 50% 50%;
@@ -20,21 +22,24 @@ const Ul = styled.ul`
     gap: 10px;
 `;
 const UserPresenter = ({
-    myfavoriteList,
-    error,
-    loading
-}) => {
+    state   
+}) => {        
+    const {result, error, loading} =state;
+// return (<div>{loading}</div>);
+    console.log(result);
     return (
         <>        
             <Helmet>
-                <title>MovieFrame | Home</title>
+                <title>MovieFrame | User</title>
             </Helmet>
-            {loading ? (<Loader />) : (
+            {loading ? (<Loader />) : result && (                
                 <Container>                            
+                    {console.log(result)}
                     <Section title="내가 좋아하는 영화목록~">
                     {
-                        myfavoriteList.map(movie => {
+                        result.movie_lst.map(movie => {
                             return(<Poster 
+                                key={movie._id}
                                 naver_code = {movie.naver_code}
                                 title={movie.title}
                                 poster={movie.thumbnail}
@@ -48,30 +53,23 @@ const UserPresenter = ({
                         }                            
                         )
                     }
+                    </Section>                               
+                    <Section title="나의 취향">
+                        
+                        <Ul>                                                        
+                            <SubTitle value="감독" />
+                            {result.top5.director.map(director => (<li key="">{director}</li>))}
+                        </Ul>             
+                        <Ul>        
+                            <SubTitle value="배우" />                    
+                            {result.top5.actor.map(actor => (<li key="">{actor}</li>))}
+                        </Ul>             
+                        <Ul>                     
+                            <SubTitle value="장르" />
+                            {result.top5.genre.map(genre => (<li key="">{genre}</li>))}
+                        </Ul>                        
                     </Section>
-                    <Section title="정보분석">
-                        <Ul>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                        </Ul>
-                        <Ul>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                        </Ul>
-                        <Ul>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                            <li>sdsds</li>
-                        </Ul>
-                    </Section>
+
                 </Container>
             )}
             
