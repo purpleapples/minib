@@ -3,8 +3,12 @@ import styled from 'styled-components';
 const HeartButton = styled.button`
     height:35px;
     width:35px;
-    background-color: ${props=> props.like ? "red" : "black"};
-    //background-image: require( ${props=> props.like ? "../assets/like.png" : "../assets/ignore.png"} );
+    background-image: url(${props=> props.like ? "./tempImage/ignore.png" : "./tempImage/like.png"});    
+    background-size:cover;
+    z-index:1;
+    &:hover{
+        cursor:pointer;
+    }
 `;
 
 const LikeButton = (props) =>{

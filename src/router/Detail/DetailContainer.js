@@ -32,6 +32,7 @@ const DetailContainer = (props) => {
 
     const _handleOnClick = (event) => {
         event.preventDefault();
+        console.log("handle")
         const {_id, like} = result;
         register(_id, like);
     }
