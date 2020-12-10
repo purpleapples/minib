@@ -17,7 +17,6 @@ const DetailContainer = (props) => {
         try {
           ({data: {result}}= await movieApi.getMovieSynopsys(naver_code));
           console.log(result);
-        //await movieApi.getFavoriteDetail();
         } catch (error) {
             setError({error:error});
         }finally{

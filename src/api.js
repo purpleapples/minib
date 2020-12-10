@@ -11,7 +11,6 @@ export const movieApi = {
     unregister: (oid) => api.get(`/movie/unregister/${oid}`),
     getFavorite: () => api.get('/movie/user-favorite'),
     getMovieSynopsys: (naver_code)=> api.get(`/movie/detail/${naver_code}`),
-    getFavoriteDetail: () => api.get("/movie/user-favorite-detail")
 };
 
 
